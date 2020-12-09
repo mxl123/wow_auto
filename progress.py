@@ -180,15 +180,17 @@ def click_with_images(images):
 
 
 def login_area():
+	util.info("开始登录大区")
 	area_image = get_current_server_match_img()
 	result = click_with_images(area_image)
 	if result:
 		util.info("已经选择大区，等待进入...")
 	else:
-		util.info("没有可用大区")
+		util.warn("没有可用大区")
 	return result
 
 def login_server():
+	util.info("开始登录服务器")
 	server_image = get_current_sub_server_match_img()
 	result = click_with_images(server_image)
 	if result:
@@ -198,6 +200,7 @@ def login_server():
 	return result
 
 def login_character():
+	util.info("开始登录角色")
 	current_index = get_current_character_index()
 	if current_index == None:
 		return False
@@ -223,6 +226,7 @@ def login_character():
 	return True
 
 def attack():
+	util.info("开始执行自动攻击扫描")
 	attack_not_end = True
 	count = 0;
 	while attack_not_end:
@@ -241,6 +245,7 @@ def attack():
 	return True
 
 def exit_game():
+	util.info("退出游戏")
 	exit_btn = util.find_target_btn_in_screen(exit_img_path)
 	if exit_btn == None:
 		return False
@@ -250,6 +255,7 @@ def exit_game():
 	util.mouse_left_click()
 	util.info("已经点击退出游戏按钮")
 	finish_current_character()
+	util.norml("****************\n\n")
 	return True
 
 # reset_cache()

@@ -8,7 +8,7 @@ back_img = "back.png"
 choose_img = "choose.png"
 login_img = "login.png"
 
-confidence = 0.8
+
 
 boss_alive_head_img_path = os.getcwd() + "/img_base/" + boss_alive_head_img
 back_img_path = os.getcwd() + "/img_base/" + back_img
@@ -22,7 +22,7 @@ boss_find_out_test = os.getcwd() + "/img_out/"
 
 # 获取boss死亡头像中间点坐标
 def find_boss_alive_center(screen_path):
-	find_result = util.find_match_img(screen_path, boss_alive_head_img_path, confidence)
+	find_result = util.find_match_img(screen_path, boss_alive_head_img_path, util.confidence)
 	if find_result == None:
 		util.debug("No boss found in the current screen")
 		return
@@ -30,26 +30,9 @@ def find_boss_alive_center(screen_path):
 	return center_result
 
 def find_back_btn_center(screen_path):
-	find_result = util.find_match_img(screen_path, back_img_path, confidence)
+	find_result = util.find_match_img(screen_path, back_img_path, util.confidence)
 	if find_result == None:
 		util.debug("No back button found in the current screen")
-		return
-	else:
-		center_result = find_result
-		return center_result
-
-def find_choose_btn_center(screen_path):
-	find_result = util.find_match_img(screen_path, choose_img_path, confidence)
-	if find_result == None:
-		util.debug("No choose button found in the current screen")
-		return
-	else:
-		center_result = find_result
-		return center_result
-def find_login_btn_center(screen_path):
-	find_result = util.find_match_img(screen_path, login_img_path, confidence)
-	if find_result == None:
-		util.debug("No login button found in the current screen")
 		return
 	else:
 		center_result = find_result
@@ -84,15 +67,7 @@ def choose_next_character():
 		util.error("当前页面角色已经全部完成，结束任务")
 		return False
 
-	choose_btn = None
-	find_count = 0
-	while find_count < 20 and choose_btn == None:
-		sys.stdout.write("\rScreen scanning, waiting for the charcter choose btn{}".format("." * (find_count % 3 + 1)))
-		sys.stdout.flush()
-
-		screen_path = util.screenshots()
-		choose_btn = find_choose_btn_center(screen_path)
-		time.sleep(1)
+	choose_btn = util.find_target_btn_in_screen(choose_img_path)
 	if choose_btn == None:
 		return False
 	x = choose_btn[0]
@@ -101,17 +76,10 @@ def choose_next_character():
 	util.mouse_left_click()
 	util.info("已经选中下一个角色，编号{}".format(current_charcter_index))
 
-	login_btn = None
-	find_count = 0
-	while find_count < 20 and login_btn == None:
-		sys.stdout.write("\rScreen scanning, waiting for the login btn{}".format("." * (find_count % 3 + 1)))
-		sys.stdout.flush()
-
-		screen_path = util.screenshots()
-		login_btn = find_login_btn_center(screen_path)
-		time.sleep(1)
+	login_btn = util.find_target_btn_in_screen(login_img_path)
 	if login_btn == None:
 		return False
+
 	x = login_btn[0]
 	y = login_btn[1]
 	util.mouse_to(x, y)

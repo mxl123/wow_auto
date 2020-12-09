@@ -1,6 +1,6 @@
 from PIL import ImageGrab, Image, ImageEnhance
 import numpy as np
-import time, os
+import time, os, sys
 import cv2
 # import keymouse
 
@@ -13,11 +13,12 @@ key_attack = '1'
 key_attack_target_clear = '2'
 key_open_back_menu = 'esc'
 
+confidence = 0.8
 
 key_dic = {
-	key_attack : 'attack boss',
-	key_attack_target_clear : 'clear target',
-	key_open_back_menu : 'open back menu'
+    key_attack : 'attack boss',
+    key_attack_target_clear : 'clear target',
+    key_open_back_menu : 'open back menu'
 }
 
 log_debug = False
@@ -102,7 +103,7 @@ def find_match_img(imgsrc, imgobj, confidence=0.8):
         if count == 0:
             center_point = (pt[0] + w/2, pt[1] + h/2)
     if center_point != None:
-        res_img = os.getcwd() + "/img_base/res.png"
+        res_img = os.getcwd() + "/img_out/res.png"
         cv2.imwrite(res_img, source_img_s)
     return center_point
 
@@ -128,6 +129,26 @@ def find_matches(haystack, needle):
                 matches.append((xmin,ymin))
 
     return matches
+
+def find_target_btn_center(screen_path, target_img_path):
+    find_result = find_match_img(screen_path, target_img_path, confidence)
+    if find_result is None:
+       debug("No target button found in the current screen")
+    return find_result
+
+def find_target_btn_in_screen(img_path, max_count=20):
+    target_btn = None
+    find_count = 0
+    info("Find target btn, target img path:{}".format(img_path))
+    while find_count < max_count and target_btn == None:
+       sys.stdout.write("\rScreen scanning, waiting for the target btn{}".format("." * (find_count % 3 + 1)))
+       sys.stdout.flush()
+       screen_path = screenshots()
+       target_btn = find_target_btn_center(screen_path, img_path)
+       find_count += 1
+       os.remove(screen_path)
+       time.sleep(1)
+    return target_btn
 
 # tmp_sub_img = os.getcwd() + "/img_base/back.png"
 # tmp_img = os.getcwd() + "/img_base/1.png"

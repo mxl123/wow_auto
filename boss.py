@@ -1,21 +1,11 @@
 
-import os, time, sys
+import os, time
 import util
 import ocr_manager
 
 boss_alive_head_img = "4.png"
-back_img = "back.png"
-choose_img = "choose.png"
-login_img = "login.png"
-
-
 
 boss_alive_head_img_path = os.getcwd() + "/img_base/" + boss_alive_head_img
-back_img_path = os.getcwd() + "/img_base/" + back_img
-choose_img_path = os.getcwd() + "/img_base/" + choose_img
-login_img_path = os.getcwd() + "/img_base/" + login_img
-
-current_charcter_index = 1
 
 # 找到boss存活时 目标图片区域证据
 boss_find_out_test = os.getcwd() + "/img_out/"
@@ -28,15 +18,6 @@ def find_boss_alive_center(screen_path):
 		return
 	center_result = find_result
 	return center_result
-
-def find_back_btn_center(screen_path):
-	find_result = util.find_match_img(screen_path, back_img_path, util.confidence)
-	if find_result == None:
-		util.debug("No back button found in the current screen")
-		return
-	else:
-		center_result = find_result
-		return center_result
 
 static_count = 0
 def attack():
@@ -58,60 +39,3 @@ def attack_alive():
 		attack()
 		count += 1
 		time.sleep(0.5)
-
-def choose_next_character():
-	global current_charcter_index;
-	current_charcter_index += 1
-	offset = 10 + 73*current_charcter_index
-	if offset > 1080:
-		util.error("当前页面角色已经全部完成，结束任务")
-		return False
-
-	choose_btn = util.find_target_btn_in_screen(choose_img_path)
-	if choose_btn == None:
-		return False
-	x = choose_btn[0]
-	y = choose_btn[1] + offset
-	util.mouse_to(x, y)
-	util.mouse_left_click()
-	util.info("已经选中下一个角色，编号{}".format(current_charcter_index))
-
-	login_btn = util.find_target_btn_in_screen(login_img_path)
-	if login_btn == None:
-		return False
-
-	x = login_btn[0]
-	y = login_btn[1]
-	util.mouse_to(x, y)
-	util.mouse_left_click()
-
-	util.info("已经点击进入游戏按钮，loading...")
-	time.sleep(30)
-	return True
-
-def switch_character():
-	util.info("开始切换角色")
-
-	back_btn = None
-	find_count = 0
-	while find_count < 20 and back_btn == None:
-		sys.stdout.write("\rScreen scanning, waiting for the back btn{}".format("." * (find_count % 3 + 1)))
-		sys.stdout.flush()
-
-		util.back_menu()
-		screen_path = util.screenshots()
-		back_btn = find_back_btn_center(screen_path)
-		if back_btn == None:
-			util.back_menu()
-		time.sleep(1)
-	if back_btn == None:
-		return False
-
-	# check_pic(back_btn, screen_path)
-	x = back_btn[0]
-	y = back_btn[1]
-	util.mouse_to(x, y)
-	util.mouse_left_click()
-	util.info("already click back btn, waiting back...")
-	time.sleep(30)
-	return choose_next_character()

@@ -49,9 +49,18 @@ def save_cache():
 		'current_character' : default_character_index, \
 		'update_time' : time_stamp \
 	}
-	util.info(cache)
+	# util.info(cache)
 	with open(cache_json_path, "w") as update_obj:
 		json.dump(cache, update_obj, sort_keys=True, indent=4)
+
+def reset_cache():
+	global default_server_index
+	global default_sub_server_index
+	global default_character_index
+	default_server_index = 0
+	default_sub_server_index = 0
+	default_character_index = 0
+	save_cache()
 
 def get_current_server():
 	if default_server_index >= len(servers):
@@ -243,17 +252,22 @@ def exit_game():
 	finish_current_character()
 	return True
 
+# reset_cache()
 # while area_finished == False:
+# 	util.norml("---------")
 # 	get_current_server_match_img()
 # 	get_current_sub_server_match_img()
 # 	get_current_character_index()
 # 	finish_current_character()
 
-# while area_finished:
-# 	login_area()
-# 	login_server()
-# 	login_character()
-# 	attack()
-# 	exit_game()
+def start_loop():
+	while area_finished:
+		login_area()
+		login_server()
+		login_character()
+		attack()
+		exit_game()
+
+
 
 

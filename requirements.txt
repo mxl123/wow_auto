@@ -1,0 +1,4 @@
+Pillow
+aircv
+opencv-python
+pywin32

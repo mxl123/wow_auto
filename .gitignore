@@ -37,6 +37,13 @@ MANIFEST
 pip-log.txt
 pip-delete-this-directory.txt
 
+img_servers.json
+progress_cache
+img_out/
+tmp_screen/
+tmp_cut_screen/
+screen/
+
 # Unit test / coverage reports
 htmlcov/
 .tox/

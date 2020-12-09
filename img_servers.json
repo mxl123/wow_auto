@@ -1,0 +1,50 @@
+{
+	"servers" : [
+		{
+			"area_id" : "3",
+			"area_name" : "三区",
+			"match_img" : ["area_3.png"],
+			"servers" : [
+				{
+					"name" : "德拉诺",
+					"match_img" : ["德拉诺.png"],
+					"count" : 3
+				},
+				{
+					"name" : "凤凰之神",
+					"match_img" : ["凤凰之神.png"],
+					"count" : 1
+				}
+			]
+		},
+		{
+			"area_id" : "1",
+			"area_name" : "一区",
+			"match_img" : ["area_1.png"],
+			"servers" : [
+				{
+					"name" : "死亡之翼",
+					"match_img" : ["死亡之翼.png"],
+					"count" : 2
+				}
+			]
+		},
+		{
+			"area_id" : "5",
+			"area_name" : "五区",
+			"match_img" : ["area_5.png"],
+			"servers" : [
+				{
+					"name" : "末日行者",
+					"match_img" : ["末日行者.png"],
+					"count" : 3
+				},
+				{
+					"name" : "主宰之剑",
+					"match_img" : ["主宰之剑.png"],
+					"count" : 1
+				}
+			]
+		}
+	]
+}
